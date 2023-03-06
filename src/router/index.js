@@ -6,7 +6,13 @@ Vue.use(Router)
 const router = new Router({
     mode:'hash',
     routes:[
-        {path: '/', name : "Home",component: () => import('@/components/Home')},
+        {path: '/',component: () => import('@/components/Home'), children:[
+                {path: 'home',component: () => import('@/components/Home/Main')},
+                {path: 'start',component: () => import('@/components/Home/Start')},
+                {path: 'recents',component: () => import('@/components/Home/Start')},
+                {path: 'folders',component: () => import('@/components/Home/Start')},
+                {path: 'more',component: () => import('@/components/Home/Start')},
+        ]},
         {path: '/signup',component: () => import('@/components/Basic/Signup')},
         {path: '/login',component: () => import('@/components/Basic/Login')},
 

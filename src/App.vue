@@ -33,10 +33,29 @@ export default {
 }
 
 .icon {
-  width: 45px; height: 50px;
+  width: 45px; height: 45px;
   vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;
   color: rgb(112,112,112);
+  cursor: pointer;
+}
+
+.icon_small {
+  width: 18px; height: 18px;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+  color: rgb(112,112,112);
+  cursor: pointer;
+}
+
+.icon_middle {
+  width: 35px; height: 35px;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+  color: rgb(112,112,112);
+  cursor: pointer;
 }
 </style>

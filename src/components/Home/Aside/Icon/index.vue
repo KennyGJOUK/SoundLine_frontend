@@ -25,29 +25,49 @@
     <div v-if="active_icon === icon_type">
       <div v-if="icon_type === 'Recents'" >
         <el-divider></el-divider>
-        <div style="font-size: 17px">
-          Recent Notes
-        </div>
+        <el-row style="font-size: 17px" type="flex" justify="space-between">
+          <el-col :span="12">Recent Notes</el-col>
+          <el-col :span="4">
+            <svg class="icon_small" aria-hidden="true" >
+            <use xlink:href="#icon-bg-left"></use>
+          </svg>
+            <svg class="icon_small" aria-hidden="true" style="rotate: 180deg;margin-left: 5px" >
+              <use xlink:href="#icon-bg-left"></use>
+            </svg>
+          </el-col>
+
+
+        </el-row>
         <el-card shadow="never" :style="{'border-radius':'20px', }">
-          <el-row v-for="(item, index) in tableData" :key="index" style="display: flex;align-items: center; font-size:18px ">
-            <el-col :span="6">
+          <el-row v-for="(item, index) in tableData" :key="index" style="display: flex;align-items: center; font-size:18px;cursor: pointer ">
+            <el-col :span="8">
               <svg class="icon" aria-hidden="true" >
                 <use xlink:href="#icon-wendang"></use>
               </svg>
             </el-col>
-            <el-col :span="18" style="color: rgba(44,44,44,0.8)">{{ item }}</el-col>
+            <el-col :span="16" style="color: rgba(44,44,44,0.8)">{{ item }}</el-col>
           </el-row>
         </el-card>
       </div>
       <div v-else-if="icon_type === 'Folders'" >
         <el-divider></el-divider>
-        <div style="font-size: 17px">
-          Folders
-        </div>
+        <el-row style="font-size: 17px" type="flex" justify="space-between">
+          <el-col :span="12">Folders</el-col>
+          <el-col :span="4">
+            <svg class="icon_small" aria-hidden="true" >
+              <use xlink:href="#icon-bg-left"></use>
+            </svg>
+            <svg class="icon_small" aria-hidden="true" style="rotate: 180deg;margin-left: 5px" >
+              <use xlink:href="#icon-bg-left"></use>
+            </svg>
+          </el-col>
+
+
+        </el-row>
         <el-card shadow="never" :style="{'border-radius':'20px', }">
-          <el-row v-for="(item, index) in tableData" :key="index" style="display: flex;align-items: center; font-size:18px ">
+          <el-row v-for="(item, index) in tableData_folder" :key="index" style="display: flex;align-items: center; font-size:18px;cursor: pointer ">
             <el-col :span="8">
-              <svg class="icon" aria-hidden="true" >
+              <svg class="icon_middle" aria-hidden="true" >
                 <use xlink:href="#icon-wenjianjia2"></use>
               </svg>
             </el-col>
@@ -56,7 +76,7 @@
           <el-divider></el-divider>
           <el-row style="align-items: center;display: flex">
             <el-col :span="8" >
-              <svg class="icon" aria-hidden="true" >
+              <svg class="icon_middle" aria-hidden="true" >
                 <use xlink:href="#icon-wenjianjia2"></use>
               </svg>
             </el-col>
@@ -75,7 +95,8 @@ export default {
   props:['icon_type', 'active_icon'],
   data(){
     return{
-      tableData:['Note 1','Note 2','Note 3','Note 4']
+      tableData:['Note 1','Note 2','Note 3','Note 4'],
+      tableData_folder:['Folder 1','Folder 2','Folder 3','Folder 4']
     }
   }
 }
