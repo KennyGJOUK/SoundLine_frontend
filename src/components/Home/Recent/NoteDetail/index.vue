@@ -11,7 +11,9 @@
         </div>
       </el-col>
       <el-col :span="6" style="display: flex;align-items: center;justify-content: end">
-        <el-button style="font-size: 20px;font-weight: bold" type="success" v-if="isEdit" @click="edit">Edit</el-button>
+
+
+        <el-button style="font-size: 20px;font-weight: bold" type="success" v-if="isPreview" @click="edit">Edit</el-button>
         <el-button style="font-size: 20px;font-weight: bold" type="success" v-else @click="upload">Upload</el-button>
 
         <svg class="icon_middle" style="margin-left: 10px" aria-hidden="true" >
@@ -20,25 +22,67 @@
       </el-col>
     </el-row>
 
-    <div class="markdown-body" style="height: calc(100vh - 200px);overflow-y: scroll">
+    <div class="markdown-body" ref="md" style="height: calc(100vh - 200px);overflow-y: scroll" v-if="isPreview">
       <VueMarkdown :source="md_value"></VueMarkdown>
     </div>
+    <div style="height: calc(100vh - 250px);" v-else>
+      <mavon-editor  style="height: calc(100vh - 250px);" v-model="md_value"  />
+    </div>
+
+
+    <div style="position: absolute;bottom: 100px;right: 10px;">
+      <div style="border-radius:50%;height:50px;width:50px;
+    display: flex;align-items: center;justify-content: center;
+    box-shadow: 0px 0px 2px #707070;
+    " @click="totop">
+        <svg class="icon_middle"  aria-hidden="true" >
+          <use xlink:href="#icon-huidaodingbu"></use>
+        </svg>
+      </div>
+
+      <div style="border-radius:50%;height:50px;width:50px;margin-top: 10px;
+    display: flex;align-items: center;justify-content: center;
+    box-shadow: 0px 0px 2px #707070;
+    " @click="feedback">
+        <svg class="icon_middle"  aria-hidden="true" >
+          <use xlink:href="#icon-wenhao"></use>
+        </svg>
+      </div>
+
+      <div style="border-radius:50%;height:50px;width:50px;margin-top: 10px;
+    display: flex;align-items: center;justify-content: center;
+    box-shadow: 0px 0px 2px #707070;
+    " @click="feedback">
+        <svg class="icon_middle"  aria-hidden="true" >
+          <use xlink:href="#icon-kaishi1"></use>
+        </svg>
+      </div>
+
+    </div>
+
+
+
   </div>
 </template>
 
 <script>
 import 'github-markdown-css/github-markdown-light.css'
 import  VueMarkdown from 'vue-markdown'
+
+//markdown editor
+import { mavonEditor } from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
+
 export default {
   name: "NoteDetail",
-  components:{VueMarkdown},
+  components:{VueMarkdown, mavonEditor},
   data(){
     return{
       note_info:{
         name:'Test',
         modify_time:'2023/1/3 23:12'
       },
-      isEdit:true,
+      isPreview:true,
       md_value:"# EM_GMM\n" +
           "\n" +
           "工程算法——EM算法实验作业要求\n" +
@@ -55,12 +99,17 @@ export default {
 
   methods:{
     edit(){
-      this.isEdit = false
+      this.isPreview = false
       this.md_value += this.md_value
     },
     upload(){
-      this.isEdit = true;
-    }
+      this.isPreview = true;
+    },
+    totop(){
+      console.log(this.$refs)
+      this.$refs.md.scrollTop = 0
+    },
+    feedback(){}
   }
 }
 </script>
@@ -74,5 +123,14 @@ export default {
   font-weight: bold;
   padding: 20px;
   /*height: 300px;*/
+}
+
+.markdown-body::-webkit-scrollbar { width: 0 !important }
+
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  .markdown-body {
+    scroll-behavior: smooth;
+  }
 }
 </style>

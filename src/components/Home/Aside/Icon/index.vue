@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-bottom: 10px;" @click="jump">
+  <div style="margin-bottom: 10px;height: 50px;transition: height 0.4s ease-in-out"  :class="active_icon===icon_type && icon_type !== 'Start'?'active_trans':''" @click="jump">
     <el-row type="flex" align="middle" :class="active_icon===icon_type?'active_icon':''" style=" cursor: pointer;">
       <el-col :span="6" >
         <svg class="icon" :class="active_icon===icon_type?'active_icon':''" aria-hidden="true" v-if="icon_type === 'Start'">
@@ -147,5 +147,9 @@ export default {
 <style scoped>
 .active_icon{
   color: #2c2c2c;
+}
+
+.active_trans{
+  height: 320px !important;
 }
 </style>

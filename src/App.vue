@@ -36,5 +36,5 @@ body{
   width: 100%;
 }
 
-::-webkit-scrollbar { display: none }
+/*::-webkit-scrollbar { display: none }*/
 </style>
