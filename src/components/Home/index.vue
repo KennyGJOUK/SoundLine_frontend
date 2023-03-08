@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <el-container>
-      <el-aside width="440px"  style="display: flex;align-items: center;justify-content: center;height: 100%">
+  <div style="height: 100%">
+    <el-container style="height: 100%">
+      <el-aside width="440px"  style="display: flex;align-items: center;justify-content: center;height: auto;padding:0 40px">
         <Aside></Aside>
       </el-aside>
       <el-main>

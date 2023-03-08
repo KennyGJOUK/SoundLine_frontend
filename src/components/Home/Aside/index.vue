@@ -6,7 +6,7 @@
       <div class="subtitle">MENU</div>
       <div v-for="item in icon_list">
         <div @click="click_icon(item)">
-          <Icon :icon_type="item" :active_icon="active_icon"></Icon>
+          <Icon :icon_type="item" @jump="jump" :active_icon="active_icon"></Icon>
         </div>
 
       </div>
@@ -48,6 +48,10 @@ export default {
       this.active_icon = v
       console.log(this.active_icon)
     },
+    jump(v){
+      this.$router.push({name:v})
+
+    }
   }
 }
 </script>

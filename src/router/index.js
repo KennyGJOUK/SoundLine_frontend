@@ -8,10 +8,12 @@ const router = new Router({
     routes:[
         {path: '/',component: () => import('@/components/Home'), children:[
                 {path: 'home',component: () => import('@/components/Home/Main')},
-                {path: 'start',component: () => import('@/components/Home/Start')},
-                {path: 'recents',component: () => import('@/components/Home/Start')},
-                {path: 'folders',component: () => import('@/components/Home/Start')},
-                {path: 'more',component: () => import('@/components/Home/Start')},
+                {path: 'start',name:'Start',component: () => import('@/components/Home/Start')},
+                {path: 'recent',name:'Recents',component: () => import('@/components/Home/Recent')},
+                {path: 'folder',name:'Folders',component: () => import('@/components/Home/Folder')},
+                {path: 'folder_detail',component: () => import('@/components/Home/Folder/FolderDetail')},
+                {path: 'note_detail',component: () => import('@/components/Home/Recent/NoteDetail')},
+                {path: 'more',name:'More',component: () => import('@/components/Home/Main')},
         ]},
         {path: '/signup',component: () => import('@/components/Basic/Signup')},
         {path: '/login',component: () => import('@/components/Basic/Login')},

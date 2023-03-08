@@ -1,0 +1,39 @@
+.start-button{
+    border: 1px solid rgba(112,112,112,0.7); font-weight: bold;
+    color: rgba(112,112,112,0.7); border-radius: 5px;padding: 5px 0;cursor: pointer;
+}
+
+.start-box{
+    font-weight: bold;
+    color: rgba(112,112,112,0.7);
+    padding: 0 50px;
+}
+
+.btn_group{
+    width: 800px;
+    margin-bottom: 40px;
+    margin-top: 20px;
+}
+
+.tab{
+    cursor: pointer;
+}
+
+.start-tabs{
+    margin-bottom: 20px;
+    margin-top: 20px;
+    font-size: 25px;
+}
+
+.active_tab{
+    color: #2c2c2c;
+    text-decoration: underline;
+}
+
+.start-select{
+    margin-bottom: 20px;
+}
+
+.start-title{
+    font-size: 50px;
+}

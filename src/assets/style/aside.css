@@ -2,9 +2,9 @@
     background-color: rgba(50,125,191,0.1);
     /*opacity: 0.1;*/
     color: rgba(112,112,112,0.5);
-    padding: 60px;
+    padding: 40px 25px;
     width: 320px;
-    height: 1000px;
+    height: calc(100% - 40px);
     border-radius: 40px;
     font-size: 25px;
     font-weight: bold;

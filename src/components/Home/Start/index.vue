@@ -1,58 +1,28 @@
 <template>
-  <div>
-   <div class="title">Start</div>
+  <div class="start-box">
+   <div class="start-title">Start</div>
     <div>
-      <el-row type="flex" align="middle" justify="space-between" style="width: 800px">
-        <el-col :span="6" >
-          <el-row type="flex" align="middle" style="border: 1px solid rgba(112,112,112,0.7); font-weight: bold;
-           color: rgba(112,112,112,0.7); border-radius: 5px;padding: 5px 0;">
-            <el-col :span="6" :offset="1">
-              <svg class="icon" aria-hidden="true" >
-                <use xlink:href="#icon-jia"></use>
-              </svg>
-            </el-col>
-            <el-col :span="10"  :offset="2">New Note</el-col>
-
-            <el-col :span="2"  :offset="1">
-              <svg class="icon_small" aria-hidden="true" >
-                <use xlink:href="#icon-xuanzeqizhankai"></use>
-              </svg>
-            </el-col>
-          </el-row>
+      <el-row type="flex" align="middle" justify="space-between" class="btn_group" style="">
+        <el-col :span="7" >
+          <ButtonDiy @open="upload_open" :button_name="'New Note'" :button_type="'note'"></ButtonDiy>
         </el-col>
 
-        <el-col :span="6" >
-          <el-row type="flex" align="middle" style="border: 1px solid rgba(112,112,112,0.7); font-weight: bold;
-           color: rgba(112,112,112,0.7); border-radius: 5px;padding: 5px 0;">
-              <el-col :span="6" :offset="1">
-                <svg class="icon" aria-hidden="true" >
-                  <use xlink:href="#icon-24gf-folderPlus"></use>
-                </svg>
-              </el-col>
-            <el-col :span="10"  :offset="2">New folder</el-col>
-          </el-row>
+        <el-col :span="7" >
+          <ButtonDiy :button_name="'New Folder'" :button_type="'folder'"></ButtonDiy>
         </el-col>
 
-        <el-col :span="6" >
-          <el-row type="flex" align="middle" style="border: 1px solid rgba(112,112,112,0.7); font-weight: bold;
-           color: rgba(112,112,112,0.7); border-radius: 5px;padding: 5px 0;">
-            <el-col :span="6" :offset="1">
-              <svg class="icon" aria-hidden="true" >
-                <use xlink:href="#icon-mobankuangjia"></use>
-              </svg>
-            </el-col>
-            <el-col :span="10"  :offset="2">Templates</el-col>
-          </el-row>
+        <el-col :span="7" >
+          <ButtonDiy :button_name="'Templates'" :button_type="'template'"></ButtonDiy>
         </el-col>
 
       </el-row>
 
-      <div>
-        <span>Notes</span>
-        <span>Tasks</span>
+      <div class="start-tabs">
+        <span class="tab" @click="click_tab('note')" :class="'note'===current_tab?'active_tab':''">Notes</span>
+        <span class="tab" @click="click_tab('task')"  :class="'task'===current_tab?'active_tab':''" style="margin-left: 20px">Tasks</span>
       </div>
 
-      <div>
+      <div class="start-select">
         <el-select v-model="value" placeholder="Type">
           <el-option
               v-for="item in options"
@@ -62,7 +32,7 @@
           </el-option>
         </el-select>
 
-        <el-select v-model="value" placeholder="Creator">
+        <el-select v-model="value" placeholder="Creator" style="margin-left: 20px">
           <el-option
               v-for="item in options"
               :key="item.value"
@@ -74,7 +44,7 @@
 
       <div>
         <div v-for="(item, index) in tableData">
-          <el-row type="flex" align = 'middle' justify = 'space-between'>
+          <el-row type="flex" align = 'middle' justify = 'space-between' style="cursor: pointer">
             <el-col :span="2">
               <svg class="icon" aria-hidden="true" >
                 <use xlink:href="#icon-wendang"></use>
@@ -97,13 +67,16 @@
 
 
     </div>
+    <DialogDiy :dialogVisible = "upload_visible" @close="upload_close"></DialogDiy>
   </div>
 </template>
 
 <script>
+import ButtonDiy from "@/components/Home/Start/ButtonDiy";
+import DialogDiy from "@/components/Home/Start/DialogDiy";
 export default {
   name: "Start",
-
+  components: {DialogDiy, ButtonDiy},
   data(){
     return{
       options: [{
@@ -115,13 +88,28 @@ export default {
       },],
       value: '',
       tableData:[
-        {note_name:'Test', folder_name:'Folder 1', time:'2023/2/4 14:55'}
-      ]
+        {note_name:'Test', folder_name:'Folder 1', time:'2023/2/4 14:55'},
+        {note_name:'Test', folder_name:'Folder 2', time:'2023/2/4 14:55'}
+      ],
+
+      current_tab:'note',
+      upload_visible:false,
+    }
+  },
+  methods:{
+    click_tab(v){
+      this.current_tab = v
+    },
+    upload_open(){
+      this.upload_visible = true;
+    },
+    upload_close(){
+      this.upload_visible = false;
     }
   }
 }
 </script>
 
 <style scoped>
-
+@import "../../../../src/assets/style/start.css";
 </style>
