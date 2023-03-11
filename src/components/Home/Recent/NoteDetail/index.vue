@@ -52,7 +52,7 @@
       <div style="border-radius:50%;height:50px;width:50px;margin-top: 10px;
     display: flex;align-items: center;justify-content: center;
     box-shadow: 0px 0px 2px #707070;
-    " @click="feedback">
+    " @click="open_drawer">
         <svg class="icon_middle"  aria-hidden="true" >
           <use xlink:href="#icon-kaishi1"></use>
         </svg>
@@ -60,7 +60,7 @@
 
     </div>
 
-
+    <NoteChat :drawer="drawer" @close="close_drawer"></NoteChat>
 
   </div>
 </template>
@@ -72,10 +72,11 @@ import  VueMarkdown from 'vue-markdown'
 //markdown editor
 import { mavonEditor } from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
+import NoteChat from "@/components/Home/Recent/NoteDetail/NoteChat";
 
 export default {
   name: "NoteDetail",
-  components:{VueMarkdown, mavonEditor},
+  components:{NoteChat, VueMarkdown, mavonEditor},
   data(){
     return{
       note_info:{
@@ -93,7 +94,8 @@ export default {
           "\n" +
           "当公司推出新产品时，他们通常想找出目标客户。如果他们有关于客户购" +
           "买历史和购物偏好的数据，他们可以利用这些数据来预测哪些类型的客户更有可能" +
-          "购买新产品。高斯混合模型（GMM）模型便可以解决这个典型的无监督学习问题。"
+          "购买新产品。高斯混合模型（GMM）模型便可以解决这个典型的无监督学习问题。",
+      drawer:false,
     }
   },
 
@@ -109,7 +111,13 @@ export default {
       console.log(this.$refs)
       this.$refs.md.scrollTop = 0
     },
-    feedback(){}
+    feedback(){},
+    open_drawer(){
+      console.log(this.drawer)
+      this.drawer = true
+    },close_drawer(){
+      this.drawer = false
+    }
   }
 }
 </script>
