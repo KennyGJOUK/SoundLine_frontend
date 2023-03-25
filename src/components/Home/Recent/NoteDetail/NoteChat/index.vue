@@ -39,7 +39,7 @@
       </div>
       </div>
       <div style="align-self: end;width: 100%">
-        <el-input placeholder="请输入问题" class="input_main" ></el-input>
+        <el-input placeholder="请输入问题" v-model="question" class="input_main" @keypress.enter.native = "new_chat" ></el-input>
       </div>
     </div>
   </el-drawer>
@@ -48,27 +48,35 @@
 <script>
 export default {
   name: "NoteChat",
-  props:['drawer'],
+  props:['drawer', 'id'],
   data(){
     return{
       question:'',
       direction:'rtl',
-      history_chat:[{question:'why chat?why chat?why chat?why chat?\n why chat?', answer:'that'},
-        {question:'why chat?why chat?why chat?why chat?\n why chat?', answer:'that'},
-        {question:'why chat?why chat?why chat?why chat?\n why chat?', answer:'that'},
-        {question:'why chat?why chat?why chat?why chat?\n why chat?', answer:'that'},
-        {question:'why chat?why chat?why chat?why chat?\n why chat?', answer:'that'},
-        {question:'why chat?why chat?why chat?why chat?\n why chat?', answer:'that'},
-        {question:'why chat?why chat?why chat?why chat?\n why chat?', answer:'that'},
-        {question:'why chat?why chat?why chat?why chat?\n why chat?', answer:'that'},],
+      username:'',
+      history_chat:[],
     }
+  },
+  created() {
+    this.username = localStorage.getItem('username')
   },
   methods:{
     handleClose(){
       this.$emit('close')
     },
     new_chat(){
+      console.log(this.question)
+      let that =this;
+      this.$axios.post('/document/chat', {username:this.username,
+         question:this.question, doc_id:this.id})
+          .then(function (resp) {
+            console.log(resp.data)
+            if (resp.data.msg === 1){
+              that.history_chat.push({question: that.question, answer: resp.data.answer})
+              console.log(that.history_chat)
+            }
 
+          })
     }
   }
 }

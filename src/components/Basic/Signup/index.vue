@@ -13,7 +13,7 @@
         </div>
         <el-input v-model="username" placeholder="请输入账号"></el-input>
         <el-input v-model="password" placeholder="请输入密码" style="margin-top: 20px" show-password></el-input>
-        <el-input v-model="password" placeholder="请再次输入密码" style="margin-top: 20px" show-password></el-input>
+        <el-input v-model="pwd_re" placeholder="请再次输入密码" style="margin-top: 20px" show-password></el-input>
 
         <el-button @click="signup" type="success" class="green_button" style="margin-top: 20px">注册</el-button>
       </div>
@@ -32,11 +32,14 @@ export default {
       user_token:null,
       username:null,
       password:null,
-      agreement:false
+      agreement:false,
+      pwd_re:null,
     }
   },
   created() {
 
+    let username = localStorage.getItem('username')
+    if (username !== null && username !== undefined) this.$router.push('/')
   },
   methods:{
     init(){},
@@ -44,7 +47,20 @@ export default {
       this.$router.push('/login')
     },
     signup(){
-      this.$router.push('/signup')
+      let that = this;
+      if (this.password !== this.pwd_re){
+        this.$message("两次密码不一致！")
+        return
+      }
+      this.$axios.post("/auth/register", {username:this.username, password:this.password})
+      .then(function (resp) {
+        console.log(resp.data.msg)
+        if (resp.data.msg === 1){
+          that.$message('注册成功')
+          that.$router.push('/login')
+        }
+      })
+
     },
 
   }

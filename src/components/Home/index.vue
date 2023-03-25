@@ -17,7 +17,14 @@ import Aside from "@/components/Home/Aside";
 import Main from "@/components/Home/Main";
 export default {
   name: "Home",
-  components: {Main, Aside}
+  components: {Main, Aside},
+  created() {
+    let username = localStorage.getItem('username')
+    if (username === null || username === undefined) {
+      this.$message('请先登录')
+      this.$router.push('login')
+    }
+  }
 }
 </script>
 

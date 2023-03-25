@@ -3,7 +3,7 @@ import router from './router'
 // http request 请求拦截器
 
 
-axios.defaults.baseURL = ''; // test
+axios.defaults.baseURL = 'http://127.0.0.1:5000'; // test
 
 axios.interceptors.request.use(config => {
     // 在发送请求之前做些什么

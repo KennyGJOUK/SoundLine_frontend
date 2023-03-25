@@ -60,7 +60,7 @@
 
     </div>
 
-    <NoteChat :drawer="drawer" @close="close_drawer"></NoteChat>
+    <NoteChat :drawer="drawer" :doc_id="this.$route.query.id" @close="close_drawer"></NoteChat>
 
   </div>
 </template>
@@ -77,6 +77,7 @@ import NoteChat from "@/components/Home/Recent/NoteDetail/NoteChat";
 export default {
   name: "NoteDetail",
   components:{NoteChat, VueMarkdown, mavonEditor},
+
   data(){
     return{
       note_info:{
@@ -84,28 +85,68 @@ export default {
         modify_time:'2023/1/3 23:12'
       },
       isPreview:true,
-      md_value:"# EM_GMM\n" +
-          "\n" +
-          "工程算法——EM算法实验作业要求\n" +
-          "\n" +
-          "代码仓库： https://github.com/nchen909/EM_GMM\n" +
-          "\n" +
-          "## 问题背景\n" +
-          "\n" +
-          "当公司推出新产品时，他们通常想找出目标客户。如果他们有关于客户购" +
-          "买历史和购物偏好的数据，他们可以利用这些数据来预测哪些类型的客户更有可能" +
-          "购买新产品。高斯混合模型（GMM）模型便可以解决这个典型的无监督学习问题。",
+      md_value:"",
       drawer:false,
+    }
+  },
+  created() {
+    this.username = localStorage.getItem('username')
+    if (this.$route.query.type === 'audio'){
+      this.get_data_summ()
+    }else {
+      this.get_data()
     }
   },
 
   methods:{
+    get_data(){
+      let that = this;
+      this.$axios.get('/document/display', {params:{username:this.username,
+          file_id:this.$route.query.id}})
+          .then(function (resp) {
+            console.log(resp.data)
+            if (resp.data.msg === 1){
+              that.md_value = resp.data.recent[3]
+              that.note_info.modify_time = resp.data.recent[4]
+              that.note_info.name = 'Note'+that.$route.query.id
+              console.log(that.md_value)
+            }
+
+          })
+    },
+    get_data_summ(){
+      let that = this;
+      this.$axios.get('/document/display', {params:{username:this.username,
+          file_id:this.$route.query.id}})
+          .then(function (resp) {
+            console.log(resp.data)
+            if (resp.data.msg === 1){
+              that.md_value = resp.data.recent[3] + resp.data.summary
+              that.note_info.modify_time = resp.data.recent[4]
+              that.note_info.name = 'Note'+that.$route.query.id
+              console.log(that.md_value)
+            }
+
+          })
+    },
     edit(){
       this.isPreview = false
-      this.md_value += this.md_value
+      // this.md_value += this.md_value
     },
     upload(){
-      this.isPreview = true;
+      let that = this;
+      this.$axios.put('/document/revise', {username:this.username,
+          file_id:this.$route.query.id, content:this.md_value})
+          .then(function (resp) {
+            console.log(resp.data)
+            if (resp.data.msg === 1){
+              // that.tableData = resp.data.docs
+              that.isPreview = true;
+              that.$message("修改成功!")
+            }
+          })
+
+
     },
     totop(){
       console.log(this.$refs)

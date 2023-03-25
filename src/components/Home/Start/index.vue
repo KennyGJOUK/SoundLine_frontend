@@ -51,13 +51,13 @@
               </svg>
             </el-col>
             <el-col :span="4">
-              {{item.note_name}}
+              {{'Note'+item[0]}}
             </el-col>
             <el-col :span="4">
-              {{item.folder_name}}
+              {{'Folder'+ item[1]}}
             </el-col>
             <el-col :span="8">
-              {{item.time}}
+              {{item[4]}}
             </el-col>
 
           </el-row>
@@ -79,24 +79,33 @@ export default {
   components: {DialogDiy, ButtonDiy},
   data(){
     return{
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      },],
+      options: [],
       value: '',
       tableData:[
-        {note_name:'Test', folder_name:'Folder 1', time:'2023/2/4 14:55'},
-        {note_name:'Test', folder_name:'Folder 2', time:'2023/2/4 14:55'}
+
       ],
 
       current_tab:'note',
       upload_visible:false,
+      username:null,
     }
   },
+  created() {
+    this.username = localStorage.getItem('username')
+    this.init_note()
+  },
   methods:{
+    init_note(){
+      let that = this;
+      this.$axios.get('/recent/display', {params:{username:this.username,
+        current_page:1, number:10}})
+      .then(function (resp) {
+        console.log(resp.data)
+        if (resp.data.msg === 1){
+          that.tableData = resp.data.recent
+        }
+      })
+    },
     click_tab(v){
       this.current_tab = v
     },

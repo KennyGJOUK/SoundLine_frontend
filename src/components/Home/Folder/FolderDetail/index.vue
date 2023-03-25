@@ -64,7 +64,7 @@
       </el-col>
     </el-row>
 
-    <Recent style="margin-top: 20px"></Recent>
+    <Recent ref="recent" :tdata="this.$route.query.id" style="margin-top: 20px"></Recent>
   </div>
 </template>
 
@@ -80,7 +80,25 @@ export default {
         name:'Folder 1',
         tag:['Study', 'Work'],
         create_time:'2023/1/2 23:12'
-      }
+      },
+      username:null,
+      tableData:[],
+    }
+  },
+  created() {
+    this.username = localStorage.getItem('username')
+    console.log(this.$route.query.id)
+    let that = this;
+    this.$nextTick(()=>{
+      that.get_data()
+    })
+    // this.get_data()
+  },
+
+  methods:{
+    get_data(){
+      console.log(this.$refs)
+      this.$refs['recent'].get_data_unfold()
     }
   }
 }

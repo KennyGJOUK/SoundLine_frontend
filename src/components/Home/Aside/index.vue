@@ -14,7 +14,7 @@
 
 
     <el-footer style="display: flex; align-items: center;justify-content: center">
-      <svg class="icon" aria-hidden="true" >
+      <svg class="icon" aria-hidden="true" @click="logout" >
         <use xlink:href="#icon-touxiang"></use>
       </svg>
       <span style="margin-left: 10px">
@@ -51,6 +51,11 @@ export default {
     jump(v){
       this.$router.push({name:v})
 
+
+    },
+    logout(){
+      localStorage.removeItem('username')
+      this.$router.push('login')
     }
   }
 }

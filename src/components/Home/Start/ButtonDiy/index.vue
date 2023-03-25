@@ -21,7 +21,7 @@
       width="300"
       trigger="click" v-else>
     <div >
-      <el-row style="cursor: pointer" type="flex" align="middle">
+      <el-row style="cursor: pointer" type="flex" align="middle" @click.native="new_note">
         <el-col :span="6" :offset="1">
           <svg class="icon" aria-hidden="true" >
             <use xlink:href="#icon-wendang" ></use>
@@ -90,12 +90,33 @@ export default {
       }]
     }
   },
+  created() {
+    this.username = localStorage.getItem('username')
+  },
   methods:{
     upload_open(){
 
       this.$emit('open')
 
-    }
+    },
+    new_note(){
+      let that = this;
+      this.$axios.post('/document/create', {username:this.username,
+          content:'# hello world!'})
+          .then(function (resp) {
+            // console.log(resp.data)
+            if (resp.data.msg === 1){
+              that.$message('创建成功')
+              that.$router.push(`recent_detail?id=${resp.data.id}`)
+              // that.tableData = resp.data.docs
+              // for (let i = 0;  i<that.tableData.length; i++){
+              //   that.tableData[i][4] = ['Study', 'Work'];
+              // }
+              // console.log(that.tableData[0])
+            }
+
+          })
+    },
   }
 }
 </script>

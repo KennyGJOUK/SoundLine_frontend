@@ -12,7 +12,7 @@ const router = new Router({
                 {path: 'recent',name:'Recents',component: () => import('@/components/Home/Recent')},
                 {path: 'folder',name:'Folders',component: () => import('@/components/Home/Folder')},
                 {path: 'folder_detail',component: () => import('@/components/Home/Folder/FolderDetail')},
-                {path: 'note_detail',component: () => import('@/components/Home/Recent/NoteDetail')},
+                {path: 'recent_detail',component: () => import('@/components/Home/Recent/NoteDetail')},
                 {path: 'more',name:'More',component: () => import('@/components/Home/Main')},
         ]},
         {path: '/signup',component: () => import('@/components/Basic/Signup')},

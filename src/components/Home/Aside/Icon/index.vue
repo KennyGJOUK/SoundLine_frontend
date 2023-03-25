@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-bottom: 10px;height: 50px;transition: height 0.4s ease-in-out"  :class="active_icon===icon_type && icon_type !== 'Start'?'active_trans':''" @click="jump">
+  <div style="margin-bottom: 10px;"  :class="active_icon===icon_type && icon_type !== 'Start'?'active_trans':''" @click="jump">
     <el-row type="flex" align="middle" :class="active_icon===icon_type?'active_icon':''" style=" cursor: pointer;">
       <el-col :span="6" >
         <svg class="icon" :class="active_icon===icon_type?'active_icon':''" aria-hidden="true" v-if="icon_type === 'Start'">
@@ -28,10 +28,10 @@
         <el-row style="font-size: 17px" type="flex" justify="space-between">
           <el-col :span="12">Recent Notes</el-col>
           <el-col :span="4">
-            <svg class="icon_small" aria-hidden="true" >
+            <svg class="icon_small" aria-hidden="true" @click="page_change(-1)">
             <use xlink:href="#icon-bg-left"></use>
           </svg>
-            <svg class="icon_small" aria-hidden="true" style="rotate: 180deg;margin-left: 5px" >
+            <svg class="icon_small" aria-hidden="true" style="rotate: 180deg;margin-left: 5px"  @click="page_change(1)">
               <use xlink:href="#icon-bg-left"></use>
             </svg>
           </el-col>
@@ -39,13 +39,13 @@
 
         </el-row>
         <el-card shadow="never" :style="{'border-radius':'20px', }">
-          <el-row v-for="(item, index) in tableData" :key="index" style="display: flex;align-items: center; font-size:18px;cursor: pointer ">
+          <el-row  @click.na.native.stop="jump_page(item[0])" v-for="(item, index) in tableData" :key="index" style="display: flex;align-items: center; font-size:18px;cursor: pointer ">
             <el-col :span="8">
               <svg class="icon" aria-hidden="true" >
                 <use xlink:href="#icon-wendang"></use>
               </svg>
             </el-col>
-            <el-col :span="16" style="color: rgba(44,44,44,0.8)">{{ item }}</el-col>
+            <el-col :span="16" style="color: rgba(44,44,44,0.8)">{{ "Note" + item[0] }}</el-col>
           </el-row>
         </el-card>
       </div>
@@ -65,13 +65,13 @@
 
         </el-row>
         <el-card shadow="never" :style="{'border-radius':'20px', }">
-          <el-row v-for="(item, index) in tableData_folder" :key="index" style="display: flex;align-items: center; font-size:18px;cursor: pointer ">
+          <el-row  @click.na.native.stop="jump_page(item[0])" v-for="(item, index) in tableData" :key="index" style="display: flex;align-items: center; font-size:18px;cursor: pointer ">
             <el-col :span="8">
               <svg class="icon_middle" aria-hidden="true" >
                 <use xlink:href="#icon-wenjianjia2"></use>
               </svg>
             </el-col>
-            <el-col :span="16" style="color: rgba(44,44,44,0.8)">{{ item }}</el-col>
+            <el-col :span="16" style="color: rgba(44,44,44,0.8)">{{ 'Folder'+item[0] }}</el-col>
           </el-row>
           <el-divider></el-divider>
           <el-row style="align-items: center;display: flex">
@@ -129,15 +129,53 @@ export default {
   props:['icon_type', 'active_icon'],
   data(){
     return{
-      tableData:['Note 1','Note 2','Note 3','Note 4'],
-      tableData_folder:['Folder 1','Folder 2','Folder 3','Folder 4'],
-      tableData_Option:['Settings', 'Importance', 'Account', 'Trash', 'Star']
+      tableData:[],
+      // tableData:['Folder 1','Folder 2','Folder 3','Folder 4'],
+      tableData_Option:['Settings', 'Importance', 'Account', 'Trash', 'Star'],
+      username:null,
+      current_page:1,
+    }
+  },
+  created() {
+    console.log(this.active_icon)
+    // if (this.active_icon === 'Recents' || this.active_icon === 'Folders'){
+    //   this.get_data(this.active_icon === 'Recents'?'recent':'folder')
+    // }
+    this.username = localStorage.getItem('username')
+  },
+  watch:{
+    active_icon:function (new_, old_) {
+      console.log(299)
+      if ((this.active_icon === 'Recents' || this.active_icon === 'Folders') && this.active_icon === this.icon_type)
+      this.get_data(this.active_icon === 'Recents'?'recent':'folder')
     }
   },
 
   methods:{
     jump(){
-      this.$emit('jump', this.icon_type)
+      this.$emit('jump', this.icon_type, )
+    },
+    get_data(val){
+      let that = this;
+      this.username = localStorage.getItem('username')
+      this.$axios.get(`/${val}/display`, {params:{username:this.username,
+          current_page:this.current_page, number:4}})
+          .then(function (resp) {
+            console.log(resp.data)
+            if (resp.data.msg === 1){
+              that.$set(that, 'tableData', resp.data[val])
+              console.log(that.tableData)
+
+            }
+          })
+    },
+    page_change(val){
+      this.current_page = val + this.current_page
+      this.get_data()
+    },
+    jump_page(val){
+      console.log(23123)
+      this.$router.push(`${this.icon_type === 'Recents'?'recent':'folder'}_detail?id=${val}`)
     }
 
   }
@@ -150,6 +188,6 @@ export default {
 }
 
 .active_trans{
-  height: 320px !important;
+  /*height: 320px !important;*/
 }
 </style>
