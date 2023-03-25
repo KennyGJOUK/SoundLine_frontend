@@ -38,7 +38,7 @@
 
 
         </el-row>
-        <el-card shadow="never" :style="{'border-radius':'20px', }">
+        <el-card shadow="never" :style="{'border-radius':'20px', 'background-color': 'transparent'}">
           <el-row  @click.na.native.stop="jump_page(item[0])" v-for="(item, index) in tableData" :key="index" style="display: flex;align-items: center; font-size:18px;cursor: pointer ">
             <el-col :span="8">
               <svg class="icon" aria-hidden="true" >
@@ -64,7 +64,7 @@
 
 
         </el-row>
-        <el-card shadow="never" :style="{'border-radius':'20px', }">
+        <el-card shadow="never" :style="{'border-radius':'20px','background-color': 'transparent' }">
           <el-row  @click.na.native.stop="jump_page(item[0])" v-for="(item, index) in tableData" :key="index" style="display: flex;align-items: center; font-size:18px;cursor: pointer ">
             <el-col :span="8">
               <svg class="icon_middle" aria-hidden="true" >
@@ -100,7 +100,7 @@
 
 
         </el-row>
-        <el-card shadow="never" :style="{'border-radius':'20px', }">
+        <el-card shadow="never" :style="{'border-radius':'20px','background-color': 'transparent' }">
 
           <el-row v-for="(item, index) in tableData_Option" :key="index" style="display: flex;align-items: center; font-size:18px;cursor: pointer ">
             <el-col :span="8">
