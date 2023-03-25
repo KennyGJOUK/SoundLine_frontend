@@ -43,8 +43,8 @@
       </div>
 
       <div>
-        <div v-for="(item, index) in tableData">
-          <el-row type="flex" align = 'middle' justify = 'space-between' style="cursor: pointer">
+        <div v-for="(item, index) in tableData" >
+          <el-row type="flex" align = 'middle' @click.native="jump_page(item[0])" justify = 'space-between' style="cursor: pointer">
             <el-col :span="2">
               <svg class="icon" aria-hidden="true" >
                 <use xlink:href="#icon-wendang"></use>
@@ -114,6 +114,10 @@ export default {
     },
     upload_close(){
       this.upload_visible = false;
+    },
+    jump_page(val){
+      console.log(23123)
+      this.$router.push(`recent_detail?id=${val}`)
     }
   }
 }
